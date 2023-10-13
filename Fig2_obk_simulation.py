@@ -132,7 +132,7 @@ mean_GT, sd_GT = 8.5, 5.0; # USA data
 # mean_GT, sd_GT= 5.6, 1.5;  # multiple countries
 
 # the csv file of the initial incidence data 
-iniEPI_file = '/Users/macbjmu/Documents/research/onGoing_project/mpx_in_China/mpx_data/BJ-mpx.csv'
+iniEPI_file = '/Users/BJ-mpx.csv'
 
 fig,axes = plt.subplots(2,2,figsize=(16,9),dpi = 500,sharex=True,sharey = False)
 for k_id in range(len(k_srs)):
