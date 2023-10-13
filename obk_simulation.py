@@ -91,7 +91,6 @@ def obk_simu(iniEPI_file,tmpKt,Rt_srs,mean_GT, sd_GT,simuK):
         tmpRt_srs = np.ones(simLen)*test_Rt;
         
         for i in range(simuK):
-            # EpiSimuData  = IncSimu_dailyNB_Rtsrs(simLen,initialCase,mean_GT,sd_GT,MaxInfctPrd,tmpRt_srs,tmpKt)
             EpiSimuData  = IncSimu_dailyNB_Rtsrs_IndSrs(simLen,initialsrs,mean_GT,sd_GT,MaxInfctPrd,tmpRt_srs,tmpKt)
             
             Epi_size_July[i] = np.sum(EpiSimuData[:July_idx]);
@@ -132,7 +131,7 @@ mean_GT, sd_GT = 8.5, 5.0; # USA data
 # mean_GT, sd_GT= 5.6, 1.5;  # multiple countries
 
 # the csv file of the initial incidence data 
-iniEPI_file = '/Users/macbjmu/Documents/research/onGoing_project/mpx_in_China/mpx_data/BJ-mpx.csv'
+iniEPI_file = '/Users/BJ-mpx.csv'
 
 fig,axes = plt.subplots(2,2,figsize=(16,9),dpi = 500,sharex=True,sharey = False)
 for k_id in range(len(k_srs)):
