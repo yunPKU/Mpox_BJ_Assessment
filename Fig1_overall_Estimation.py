@@ -104,7 +104,7 @@ def Inci2Epi_Para(outbreakData):
 
 '''
 # the csv file of the analyzed incidence data 
-IncPath = '/Users/macbjmu/Documents/research/onGoing_project/mpx_in_China/mpx_data/'
+IncPath = '/Users/mpx_data/'
 
 Incfile = 'BJ-mpx.csv'
 outbreakName = 'Mpx_BJ'
