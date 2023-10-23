@@ -132,8 +132,9 @@ lw = 2.5
 
 k_srs = [1,2,4,0.5]
 simuK = 50000  # times of simulation
-mean_GT, sd_GT = 8.5, 5.0; # USA data
-# mean_GT, sd_GT= 5.6, 1.5;  # multiple countries
+
+mean_GT, sd_GT= 5.6, 1.5;  # multiple countries
+# mean_GT, sd_GT = 8.5, 5.0; # USA data
 
 # the csv file of the initial incidence data 
 iniEPI_file = '/Users/BJ-mpx.csv'
