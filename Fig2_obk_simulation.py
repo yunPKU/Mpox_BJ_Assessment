@@ -75,7 +75,10 @@ def obk_simu(iniEPI_file,tmpKt,Rt_srs,mean_GT, sd_GT,simuK):
     Epi_size_July = np.zeros(simuK);
     Epi_size_Aug  = np.zeros(simuK);
     Epi_size_Sep = np.zeros(simuK);
-    simLen = 122;
+    Epi_size_Oct = np.zeros(simuK);
+    Epi_size_Nov = np.zeros(simuK);
+
+    simLen = 153+30;
 
     
     MaxInfctPrd = int(mean_GT+3*sd_GT)+1
@@ -83,7 +86,9 @@ def obk_simu(iniEPI_file,tmpKt,Rt_srs,mean_GT, sd_GT,simuK):
     July_idx = 62;
     Aug_idx = 92;
     Sep_idx = 122
-    simu_result = np.zeros((len(Rt_srs)+1,10));
+    Oct_idx = 153
+    Nov_idx = 153+30
+    simu_result = np.zeros((len(Rt_srs)+1,13+3));
 
     for rt_id in range(len(Rt_srs)):
         simu_result[rt_id,0] = 37
@@ -98,23 +103,29 @@ def obk_simu(iniEPI_file,tmpKt,Rt_srs,mean_GT, sd_GT,simuK):
             Epi_size_July[i] = np.sum(EpiSimuData[:July_idx]);
             Epi_size_Aug[i]  = np.sum(EpiSimuData[:Aug_idx]);
             Epi_size_Sep[i]  = np.sum(EpiSimuData[:Sep_idx]);
+            Epi_size_Oct[i]  = np.sum(EpiSimuData[:Oct_idx]);
+            Epi_size_Nov[i]  = np.sum(EpiSimuData[:Nov_idx]);
 
         # get the results
         mb_size_July = np.median(Epi_size_July)
         mb_size_Aug = np.median(Epi_size_Aug)
         mb_size_Sep = np.median(Epi_size_Sep)
+        mb_size_Oct = np.median(Epi_size_Oct)
+        mb_size_Nov = np.median(Epi_size_Nov)
         
         # output the result
         simu_result[rt_id,1:4] = np.percentile(Epi_size_July,[50, 25, 75])
         simu_result[rt_id,4:7] = np.percentile(Epi_size_Aug,[50, 25, 75])
-        simu_result[rt_id,7:] = np.percentile(Epi_size_Sep,[50, 25, 75])
-    simu_result[-1,:] = np.array([21,62,62,62,92,92,92,122,122,122]);
+        simu_result[rt_id,7:10] = np.percentile(Epi_size_Sep,[50, 25, 75])
+        simu_result[rt_id,10:13] = np.percentile(Epi_size_Oct,[50, 25, 75])
+        simu_result[rt_id,13:16] = np.percentile(Epi_size_Nov,[50, 25, 75])
+    simu_result[-1,:] = np.array([21]+[62]*3+[92]*3+[122]*3+[153]*3+[153+30]*3);
 
     acc_case = np.cumsum(initialsrs);
     rpt_date = np.arange(0,len(initialsrs));
 
-    late_case = np.array([45+81,45+81+54,45+81+54+42])
-    late_date = np.array([62,92,122])
+    late_case = np.array([45+81,45+81+54,45+81+54+42,45+81+54+42+13,45+81+54+42+13+10])
+    late_date = np.array([62,92,122,153,153+30])
 
     acc_case = np.append(acc_case,late_case);
     rpt_date = np.append(rpt_date,late_date);
@@ -132,12 +143,11 @@ lw = 2.5
 
 k_srs = [1,2,4,0.5]
 simuK = 50000  # times of simulation
-
-mean_GT, sd_GT= 5.6, 1.5;  # multiple countries
-# mean_GT, sd_GT = 8.5, 5.0; # USA data
+mean_GT, sd_GT = 8.5, 5.0; # USA data
+# mean_GT, sd_GT= 5.6, 1.5;  # multiple countries
 
 # the csv file of the initial incidence data 
-iniEPI_file = '/Users/BJ-mpx.csv'
+iniEPI_file = '/Users/macbjmu/Documents/research/onGoing_project/mpx_in_China/mpx_data/BJ-mpx.csv'
 
 
 # simulation with the k_srs
@@ -155,12 +165,12 @@ for k_id in range(len(k_srs)):
     acc_case,rpt_date,simu_result = cmp_re[k_id];    
     tmpAx.plot(rpt_date,acc_case,c='k',linewidth = 1.5*lw);
     for rt_id in range(len(Rt_srs)):
-        tmpAx.plot(simu_result[-1,[0,1,4,7]],simu_result[rt_id,[0,1,4,7]],linewidth = lw);
-    tmpAx.set_xticks([0,21,62,92,122])
+        tmpAx.plot(simu_result[-1,[0,1,4,7,10,13]],simu_result[rt_id,[0,1,4,7,10,13]],linewidth = lw);
+    tmpAx.set_xticks([0,21,62,92,122,153,153+30])
     if k_id<3:
-        tmpAx.set_yticks([100,200,300,400])
+        tmpAx.set_yticks([100,300,500,700])
     else:
-        tmpAx.set_yticks([100,200,300])
+        tmpAx.set_yticks([100,200,300,400])
     if k_id%2 == 1:
         tmpAx.yaxis.set_label_position("right")
         tmpAx.yaxis.tick_right()
